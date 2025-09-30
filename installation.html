@@ -52,6 +52,8 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            padding-bottom: 80px; /* Extra bottom padding for better visibility */
+            min-height: 100vh; /* Ensure container takes full height */
         }
 
         .header {
@@ -91,6 +93,47 @@
             background: var(--bg-tertiary);
         }
 
+        /* Introduction Section */
+        .intro-section {
+            margin: 30px 0;
+            padding: 25px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .intro-text {
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .install-options-overview {
+            display: grid;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .option-summary {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            border-left: 3px solid var(--text-accent);
+        }
+
+        .option-summary strong {
+            color: var(--text-primary);
+        }
+
+        .option-icon {
+            font-size: 1.2rem;
+        }
 
         /* Dropdown Style */
         .mode-selection-dropdown {
@@ -418,6 +461,9 @@
         .terminal-section {
             display: none;
             margin-top: 25px;
+            position: relative;
+            min-height: 400px;
+            padding-bottom: 40px;
         }
 
         .terminal-section.active {
@@ -591,25 +637,6 @@
             color: var(--text-accent);
         }
 
-        .navigation {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 10px;
-            font-size: 0.8rem;
-        }
-
-        .nav-help {
-            color: var(--text-secondary);
-            margin-bottom: 5px;
-        }
-
-        .nav-keys {
-            color: var(--text-accent);
-        }
 
         .footer {
             margin-top: 40px;
@@ -621,24 +648,41 @@
         }
 
         .action-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-            padding: 20px;
+            display: none;
+            gap: 12px;
+            padding: 24px;
             background: var(--bg-secondary);
             border-radius: 6px;
-            border-top: 1px solid var(--border);
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 1150px;
+            width: calc(100% - 40px);
+            z-index: 100;
+        }
+
+        .terminal-section.active .action-buttons {
+            display: flex;
+        }
+
+        #sample-app-section .action-buttons,
+        #next-steps-section .action-buttons {
+            display: flex;
         }
 
         .action-btn {
             background: var(--bg-tertiary);
             border: 1px solid var(--border);
             color: var(--text-accent);
-            padding: 8px 16px;
+            padding: 12px 24px;
             border-radius: 4px;
             cursor: pointer;
             font-family: inherit;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
+            font-weight: 500;
             transition: all 0.2s;
         }
 
@@ -681,37 +725,67 @@
             .deployment-grid {
                 grid-template-columns: 1fr;
             }
-            .navigation {
-                display: none;
-            }
             .action-buttons {
                 flex-direction: column;
+                padding: 15px;
+            }
+            .option-summary {
+                font-size: 0.8rem;
+                padding: 8px 12px;
+            }
+            .intro-section {
+                padding: 15px;
+                margin: 20px 0;
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="navigation">
-        <div class="nav-help">Navigation:</div>
-        <div class="nav-keys">
-            <span class="kbd">1-5</span> Switch options<br>
-            <span class="kbd">a</span> Sample app<br>
-            <span class="kbd">n</span> Next steps<br>
-            <span class="kbd">Space</span> Toggle phase<br>
-            <span class="kbd">c</span> Copy command
-        </div>
-    </div>
-
     <div class="container">
         <header class="header">
             <div class="header-content">
                 <h1>OpenChoreo Installation Guide</h1>
-                <div class="subtitle">Complete lifecycle deployment guide with real command outputs</div>
+                <div class="subtitle">Choose your installation method below</div>
             </div>
             <button class="theme-toggle" onclick="toggleTheme()">
                 <span id="theme-icon">🌙</span> <span id="theme-text">Dark</span>
             </button>
         </header>
+
+        <!-- Introduction Section -->
+        <div class="intro-section">
+            <p class="intro-text">
+                <strong>OpenChoreo</strong> is an enterprise-ready Kubernetes platform that provides a secure foundation for building and deploying cloud-native applications.
+                Choose from five installation methods based on your requirements:
+            </p>
+            <div class="install-options-overview">
+                <div class="option-summary">
+                    <span class="option-icon">⚡</span>
+                    <strong>Quick Start</strong> - Local installation with Docker/kind in 5 minutes for evaluation
+                </div>
+                <div class="option-summary">
+                    <span class="option-icon">🔧</span>
+                    <strong>Development</strong> - Deploy on existing K8s cluster in 30 minutes for team development
+                </div>
+                <div class="option-summary">
+                    <span class="option-icon">🏭</span>
+                    <strong>Production</strong> - High-availability setup in 1 hour for business-critical workloads
+                </div>
+                <div class="option-summary">
+                    <span class="option-icon">🌐</span>
+                    <strong>Multi-Cluster</strong> - Enterprise-scale deployment in 2 hours with separate control/data planes
+                </div>
+                <div class="option-summary">
+                    <span class="option-icon">🔒</span>
+                    <strong>Air-gapped</strong> - Offline installation in 2 hours for disconnected environments
+                </div>
+            </div>
+        </div>
 
         <!-- Clean Tab Navigation (Cilium-style) -->
         <div class="install-tabs">
@@ -760,7 +834,7 @@
 
             <div class="phase">
                 <div class="phase-header" onclick="togglePhase(this)">
-                    <div class="phase-title">Phase 1: Installation</div>
+                    <div class="phase-title">Phase 1: Environment Setup & Installation</div>
                     <div class="phase-toggle">▼</div>
                 </div>
                 <div class="phase-content">
@@ -791,7 +865,7 @@ Release "openchoreo" has been upgraded. Happy Helming!
 
             <div class="phase">
                 <div class="phase-header" onclick="togglePhase(this)">
-                    <div class="phase-title">Phase 2: Verification & Access Information</div>
+                    <div class="phase-title">Phase 2: Verification</div>
                     <div class="phase-toggle">▼</div>
                 </div>
                 <div class="phase-content">
@@ -851,7 +925,7 @@ openchoreo-api    nginx   localhost     127.0.0.1   80      2m</div>
 
             <div class="phase">
                 <div class="phase-header" onclick="togglePhase(this)">
-                    <div class="phase-title">Phase 3: Test CI Add-on Installation</div>
+                    <div class="phase-title">Phase 3: Install Sample Add-on</div>
                     <div class="phase-toggle">▼</div>
                 </div>
                 <div class="phase-content">
@@ -897,7 +971,7 @@ workflow-controller-8g9h0j-st12 <span class="status-indicator status-ready"></sp
 
             <div class="phase">
                 <div class="phase-header" onclick="togglePhase(this)">
-                    <div class="phase-title">Phase 4: Complete Cleanup</div>
+                    <div class="phase-title">Phase 4: Cleanup</div>
                     <div class="phase-toggle">▼</div>
                 </div>
                 <div class="phase-content">
@@ -1035,7 +1109,7 @@ openchoreo-controller-7f9g0h4d5-ghi56  <span class="status-indicator status-read
 
             <div class="phase collapsed">
                 <div class="phase-header" onclick="togglePhase(this)">
-                    <div class="phase-title">Phase 4: Test Monitoring Add-on</div>
+                    <div class="phase-title">Phase 4: Install Sample Add-on</div>
                     <div class="phase-toggle">▼</div>
                 </div>
                 <div class="phase-content">
@@ -1214,7 +1288,7 @@ NOTES: OpenChoreo production deployment successful!</div>
 
             <div class="phase collapsed">
                 <div class="phase-header" onclick="togglePhase(this)">
-                    <div class="phase-title">Phase 4: Test Security Add-on</div>
+                    <div class="phase-title">Phase 4: Install Sample Add-on</div>
                     <div class="phase-toggle">▼</div>
                 </div>
                 <div class="phase-content">
@@ -1237,7 +1311,7 @@ NOTES: OpenChoreo production deployment successful!</div>
 
             <div class="phase collapsed">
                 <div class="phase-header" onclick="togglePhase(this)">
-                    <div class="phase-title">Phase 5: Production Cleanup</div>
+                    <div class="phase-title">Phase 5: Cleanup</div>
                     <div class="phase-toggle">▼</div>
                 </div>
                 <div class="phase-content">
@@ -1344,7 +1418,7 @@ Data plane connected to control plane</div>
 
             <div class="phase collapsed">
                 <div class="phase-header" onclick="togglePhase(this)">
-                    <div class="phase-title">Phase 3: Test Cross-Cluster CI</div>
+                    <div class="phase-title">Phase 3: Install Sample Add-on</div>
                     <div class="phase-toggle">▼</div>
                 </div>
                 <div class="phase-content">
@@ -1370,7 +1444,7 @@ Data plane connected to control plane</div>
 
             <div class="phase collapsed">
                 <div class="phase-header" onclick="togglePhase(this)">
-                    <div class="phase-title">Phase 4: Multi-Cluster Cleanup</div>
+                    <div class="phase-title">Phase 4: Cleanup</div>
                     <div class="phase-toggle">▼</div>
                 </div>
                 <div class="phase-content">
@@ -1472,7 +1546,7 @@ OpenChoreo running in air-gapped mode</div>
 
             <div class="phase collapsed">
                 <div class="phase-header" onclick="togglePhase(this)">
-                    <div class="phase-title">Phase 3: Test Offline Monitoring</div>
+                    <div class="phase-title">Phase 3: Install Sample Add-on</div>
                     <div class="phase-toggle">▼</div>
                 </div>
                 <div class="phase-content">
@@ -1492,7 +1566,7 @@ OpenChoreo running in air-gapped mode</div>
 
             <div class="phase collapsed">
                 <div class="phase-header" onclick="togglePhase(this)">
-                    <div class="phase-title">Phase 4: Air-gapped Cleanup</div>
+                    <div class="phase-title">Phase 4: Cleanup</div>
                     <div class="phase-toggle">▼</div>
                 </div>
                 <div class="phase-content">
@@ -1678,7 +1752,7 @@ api-backend-6b7c8d9e4-ghi56    <span class="status-indicator status-ready"></spa
         <div class="terminal-section" id="next-steps-section" style="display: none;">
             <div class="phase">
                 <div class="phase-header" onclick="togglePhase(this)">
-                    <div class="phase-title">Discover Available Add-ons</div>
+                    <div class="phase-title">Step 1: Discover Available Add-ons</div>
                     <div class="phase-toggle">▼</div>
                 </div>
                 <div class="phase-content">
@@ -1776,7 +1850,7 @@ Maintainer: OpenChoreo Team
 
             <div class="phase collapsed">
                 <div class="phase-header" onclick="togglePhase(this)">
-                    <div class="phase-title">Install Build Plane (Example)</div>
+                    <div class="phase-title">Step 2: Install Sample Add-on</div>
                     <div class="phase-toggle">▼</div>
                 </div>
                 <div class="phase-content">
@@ -1831,7 +1905,7 @@ buildpack-builder-jkl012             <span class="status-indicator status-ready"
 
             <div class="phase collapsed">
                 <div class="phase-header" onclick="togglePhase(this)">
-                    <div class="phase-title">Test CI with Sample Pipeline</div>
+                    <div class="phase-title">Step 3: Test Add-on Functionality</div>
                     <div class="phase-toggle">▼</div>
                 </div>
                 <div class="phase-content">
@@ -1879,7 +1953,7 @@ Artifacts: 0 artifacts generated</div>
 
             <div class="phase collapsed">
                 <div class="phase-header" onclick="togglePhase(this)">
-                    <div class="phase-title">Explore More Features</div>
+                    <div class="phase-title">Step 4: Explore More Add-ons</div>
                     <div class="phase-toggle">▼</div>
                 </div>
                 <div class="phase-content">
@@ -2102,10 +2176,10 @@ choreo-build-plane      openchoreo-system    1    2024-10-21 16:15:45    deploye
 
         // Auto-collapse non-essential phases for better UX
         document.addEventListener('DOMContentLoaded', () => {
-            // Start with only first 2 phases expanded in each section
+            // Start with only first phase expanded in each section
             document.querySelectorAll('.phase').forEach((phase, index) => {
                 const sectionIndex = Array.from(phase.closest('.terminal-section, [id$="-section"]').querySelectorAll('.phase')).indexOf(phase);
-                if (sectionIndex > 1) { // Keep first 2 phases open by default
+                if (sectionIndex > 0) { // Keep only first phase open by default
                     phase.classList.add('collapsed');
                 }
             });
